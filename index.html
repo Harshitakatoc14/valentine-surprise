@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For My Valentine ❤️</title>
+
+<style>
+body {
+    background-color: #ffe6f2;
+    text-align: center;
+    font-family: Arial;
+}
+
+#startPage {
+    margin-top: 50px;
+}
+
+#questionPage {
+    display: none;
+    margin-top: 50px;
+}
+
+#messagePage {
+    display: none;
+    margin-top: 50px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#yesBtn {
+    background-color: lightgreen;
+}
+
+#noBtn {
+    background-color: lightcoral;
+}
+
+img {
+    width: 300px;
+    border-radius: 20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<audio id="music">
+  <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
+</audio>
+
+<div id="startPage">
+    <h2>Someone wants to ask you something...</h2>
+    <img src="us.jpg">
+    <br><br>
+    <button onclick="nextPage()">Click to Continue</button>
+</div>
+
+
+<div id="questionPage">
+    <h1>Will you be my Valentine, Vansh? 💖</h1>
+
+    <button id="yesBtn" onclick="yesClicked()">YES 😍</button>
+    <button id="noBtn" onclick="moveNo()">NO 😜</button>
+</div>
+
+
+<div id="messagePage">
+    <h1>YAYYYYY! 💘</h1>
+    <h2>I Love You So Much Motee ❤️</h2>
+    <p>
+        You make my life brighter,<br>
+        happier and more beautiful every day.<br>
+        I’m so lucky to have you 💕
+    </p>
+
+    <img src="us.jpg">
+</div>
+
+
+<script>
+
+function nextPage() {
+    document.getElementById("startPage").style.display = "none";
+    document.getElementById("questionPage").style.display = "block";
+    document.getElementById("music").play();
+}
+
+function yesClicked() {
+    document.getElementById("questionPage").style.display = "none";
+    document.getElementById("messagePage").style.display = "block";
+    document.getElementById("music").play();
+}
+
+function moveNo() {
+    var x = Math.random() * window.innerWidth;
+    var y = Math.random() * window.innerHeight;
+
+    document.getElementById("noBtn").style.position = "absolute";
+    document.getElementById("noBtn").style.left = x + "px";
+    document.getElementById("noBtn").style.top = y + "px";
+}
+
+</script>
+
+</body>
+</html>
