@@ -1,112 +1,192 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>For My Valentine ❤️</title>
-
-<style>
-body {
-    background-color: #ffe6f2;
-    text-align: center;
-    font-family: Arial;
-}
-
-#startPage {
-    margin-top: 50px;
-}
-
-#questionPage {
-    display: none;
-    margin-top: 50px;
-}
-
-#messagePage {
-    display: none;
-    margin-top: 50px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-}
-
-#yesBtn {
-    background-color: lightgreen;
-}
-
-#noBtn {
-    background-color: lightcoral;
-}
-
-img {
-    width: 300px;
-    border-radius: 20px;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <title>My Valentine Surprise</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .page {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .active {
+            display: flex;
+        }
+        .page1 {
+            background-color: red;
+            cursor: pointer;
+            position: relative;
+        }
+        .page1 img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 20px;
+        }
+        .center-button {
+            position: absolute;
+            background-color: pink;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+        }
+        .question {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            margin: 10px auto;
+            padding: 12px 25px;
+            font-size: 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background-color: pink;
+            color: white;
+            box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
+        }
+        .message {
+            color: yellow;
+            font-size: 24px;
+            margin-top: 15px;
+        }
+        .final-message {
+            text-align: center;
+            font-size: 28px;
+            color: white;
+            margin-top: 20px;
+        }
+        .page3 {
+            background-color: darkred;
+            color: white;
+        }
+    </style>
 </head>
-
 <body>
 
-<audio id="music">
-  <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
-</audio>
-
-<div id="startPage">
-    <h2>Someone wants to ask you something...</h2>
-    <img src="us.jpg">
-    <br><br>
-    <button onclick="nextPage()">Click to Continue</button>
+<!-- PAGE 1: Image with button -->
+<div class="page page1 active" id="page1">
+    <img src="us.jpg" alt="Us Together">
+    <div class="center-button" id="startBtn">Kisses on the way 💋</div>
 </div>
 
-
-<div id="questionPage">
-    <h1>Will you be my Valentine, Vansh? 💖</h1>
-
-    <button id="yesBtn" onclick="yesClicked()">YES 😍</button>
-    <button id="noBtn" onclick="moveNo()">NO 😜</button>
+<!-- PAGE 2: Questions -->
+<div class="page page2" id="page2">
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="message" id="message"></div>
 </div>
 
-
-<div id="messagePage">
-    <h1>YAYYYYY! 💘</h1>
-    <h2>I Love You So Much Motee ❤️</h2>
-    <p>
-        You make my life brighter,<br>
-        happier and more beautiful every day.<br>
-        I’m so lucky to have you 💕
-    </p>
-
-    <img src="us.jpg">
+<!-- PAGE 3: Final valentine question -->
+<div class="page page3" id="page3">
+    <div class="question">Will you be my Valentine, Mote?</div>
+    <div class="options">
+        <button onclick="checkValentine('yes')">Yes ❤️</button>
+        <button onclick="checkValentine('no')">No 😢</button>
+    </div>
+    <div class="message" id="finalMessage"></div>
+    <div class="final-message" id="romanticLines"></div>
 </div>
-
 
 <script>
+    // PAGE 1
+    const startBtn = document.getElementById('startBtn');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const page3 = document.getElementById('page3');
 
-function nextPage() {
-    document.getElementById("startPage").style.display = "none";
-    document.getElementById("questionPage").style.display = "block";
-    document.getElementById("music").play();
-}
+    startBtn.addEventListener('click', () => {
+        page1.classList.remove('active');
+        page2.classList.add('active');
+        showQuestion(0);
+    });
 
-function yesClicked() {
-    document.getElementById("questionPage").style.display = "none";
-    document.getElementById("messagePage").style.display = "block";
-    document.getElementById("music").play();
-}
+    // PAGE 2: Questions
+    const questions = [
+        {
+            text: "When did we kiss for the first time?",
+            options: ["25 December", "26 December", "27 December"],
+            answer: "26 December"
+        },
+        {
+            text: "When did you say I love you to me?",
+            options: ["1 January", "2 January", "3 January"],
+            answer: "2 January"
+        },
+        {
+            text: "Whom do you love the most?",
+            options: ["PUBG", "Me"],
+            answer: "Me"
+        },
+        {
+            text: "Who is the smartest person in our relationship?",
+            options: ["Vansh", "Harshita"],
+            answer: "Harshita"
+        }
+    ];
 
-function moveNo() {
-    var x = Math.random() * window.innerWidth;
-    var y = Math.random() * window.innerHeight;
+    let currentQuestion = 0;
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const message = document.getElementById('message');
 
-    document.getElementById("noBtn").style.position = "absolute";
-    document.getElementById("noBtn").style.left = x + "px";
-    document.getElementById("noBtn").style.top = y + "px";
-}
+    function showQuestion(index) {
+        message.textContent = "";
+        questionText.textContent = questions[index].text;
+        optionsContainer.innerHTML = "";
+        questions[index].options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.textContent = option;
+            btn.onclick = () => checkAnswer(option);
+            optionsContainer.appendChild(btn);
+        });
+    }
 
+    function checkAnswer(selected) {
+        if (selected === questions[currentQuestion].answer) {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion(currentQuestion);
+            } else {
+                page2.classList.remove('active');
+                page3.classList.add('active');
+            }
+        } else {
+            message.textContent = "Oops! Wrong answer 😢";
+        }
+    }
+
+    // PAGE 3: Valentine question
+    function checkValentine(ans) {
+        const finalMessage = document.getElementById('finalMessage');
+        const romanticLines = document.getElementById('romanticLines');
+        if (ans === 'yes') {
+            finalMessage.textContent = "Yay! 💖 You made me so happy!";
+            romanticLines.innerHTML = `
+                You are my sunshine 🌞,<br>
+                My forever and always 💕,<br>
+                Happy Valentine's Day, my love ❤️
+            `;
+        } else {
+            finalMessage.textContent = "Nahi Mote! Wrong answer 😢";
+            romanticLines.textContent = "";
+        }
+    }
 </script>
 
 </body>
